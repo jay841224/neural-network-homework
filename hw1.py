@@ -79,6 +79,7 @@ print((tolearn[0]))
 print('biases is:')
 print((tolearn[1]))
 #test
+print('this is test from 1st to 4th:')
 test(tolearn)
 
 
