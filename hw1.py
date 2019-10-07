@@ -1,5 +1,14 @@
 import numpy as np
 import random
+
+dict = {(0, 0): 1, (0, 1): 7, (1, 0): 6,(1, 1): 0}
+
+P = np.array([[1, 0, 1, 1, 1, 1, 0, 0, 1],\
+             [0, 0, 0, 1, 0, 0, 1, 1, 1],\
+             [1, 1, 1, 0, 1, 1, 0, 1, 1],\
+             [1, 1, 1, 1, 0, 1, 1, 1, 1]] )
+T = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+
 def hardlim(array):
     array[array>=0] = 1
     array[array<0] = 0
@@ -15,13 +24,7 @@ def matrix_transform2(array):
     tran = array.reshape(1, array.shape[0])
     return tran
 
-dict = {(0, 0): 1, (0, 1): 7, (1, 0): 6,(1, 1): 0}
 
-P = np.array([[1, 0, 1, 1, 1, 1, 0, 0, 1],\
-             [0, 0, 0, 1, 0, 0, 1, 1, 1],\
-             [1, 1, 1, 0, 1, 1, 0, 1, 1],\
-             [1, 1, 1, 1, 0, 1, 1, 1, 1]] )
-T = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
 
 def learn(matrix):
     W = np.random.random((matrix[1], matrix[0]))*2 - 1
@@ -69,7 +72,7 @@ def test(tolearn):
         i += 1
 
 
-
+#main
 tolearn = learn([9, 2])
 print('weight is:')
 print((tolearn[0]))
