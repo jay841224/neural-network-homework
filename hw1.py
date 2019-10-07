@@ -23,50 +23,59 @@ P = np.array([[1, 0, 1, 1, 1, 1, 0, 0, 1],\
              [1, 1, 1, 1, 0, 1, 1, 1, 1]] )
 T = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
 
+def learn(matrix):
+    W = np.random.random((matrix[1], matrix[0]))*2 - 1
+    B = np.random.random((matrix[0], 1))
+    satisfy = False
+    i = 0
+    error = 0
+    #learn
+    while not satisfy:
+        #transform P for n1
+        p_tran = matrix_transform1(P[i])
+        
+        n1 = np.dot(W, p_tran)
+        A = hardlim(n1)
+        #transform T for E
+        t_tran = matrix_transform1(T[i])
 
-W = np.random.random((2, 9))*2-1
-B = np.random.random((2, 1))
-satisfy = False
-i = 0
-error = 0
-#learn
-while not satisfy:
-    #transform P for n1
-    p_tran = matrix_transform1(P[i])
-    
-    n1 = np.dot(W, p_tran)
-    A = hardlim(n1)
-    #transform T for E
-    t_tran = matrix_transform1(T[i])
-
-    E = t_tran - A
-    #transform P for new W
-    p_for_final = matrix_transform2(P[i])
-    
-    W = W + np.dot(E, p_for_final)
-    # calculate error
-    error += E*E
-    i += 1
-    if i > 3:
-        if(error[0, 0] == 0 and error[1, 0]==0):
-            satisfy = True
-        i = 0
-        error = 0
+        E = t_tran - A
+        #transform P for new W
+        p_for_final = matrix_transform2(P[i])
+        
+        W = W + np.dot(E, p_for_final)
+        # calculate error
+        error += E*E
+        i += 1
+        if i > 3:
+            if(error[0, 0] == 0 and error[1, 0]==0):
+                satisfy = True
+            i = 0
+            error = 0
+    return [W, B]
     
 
-print(W)
-print(B)
+def test(tolearn):
+    i = 0
+    W = tolearn[0]
+    while(i<4):
+        p_tran_temp = P[i]
+        p_tran = p_tran_temp.reshape(p_tran_temp.shape[0], 1)
+        
+        n1 = np.dot(W, p_tran)
+        A = hardlim(n1)
+        ans = (A[0, 0], A[1, 0])
+        print(dict[ans])
+        i += 1
+
+
+
+tolearn = learn([9, 2])
+print('weight is:')
+print((tolearn[0]))
+print('biases is:')
+print((tolearn[1]))
 #test
-while(i<4):
-    p_tran_temp = P[i]
-    p_tran = p_tran_temp.reshape(p_tran_temp.shape[0], 1)
-    
-    n1 = np.dot(W, p_tran)
-    A = hardlim(n1)
-    ans = (A[0, 0], A[1, 0])
-    print(dict[ans])
-    i += 1
-
-
+test(tolearn)
 
 
